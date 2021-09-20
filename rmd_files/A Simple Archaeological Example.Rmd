@@ -1,0 +1,409 @@
+---
+output:
+  pdf_document: 
+    latex_engine: xelatex
+  word_document: default
+  html_document: default
+---
+
+## A SIMPLE ARCHAEOLOGICAL EXAMPLE
+
+```{r, echo=FALSE,message=FALSE, warning=FALSE, results='hide'}
+# rm(list = ls())
+# need install.packages("rstudioapi")
+#library(rstudioapi)
+#setwd(dirname(rstudioapi:::getActiveDocumentContext()$path))
+#getwd()
+# If you do not have rstan installed, do so with
+# install.packages("rstan", dependencies = T)
+require(rstan)
+require(ggdist)
+require(tidyverse)
+options(scipen=6)
+
+################################
+# EARLY PERIOD
+################################
+
+# P(D|H1)
+z<-(6.1-6.9)/(2/sqrt(10))
+z
+2*pnorm(abs(z),lower.tail = F) 
+
+# P(D|H2)
+z<-(6.1-11)/(2/sqrt(10))
+z
+2*pnorm(abs(z),lower.tail = F) 
+
+# P(D|H2)
+z<-(6.1-14)/(2/sqrt(10))
+z
+2*pnorm(abs(z),lower.tail = F) 
+
+N1 <- 10
+mu1 <- 6.1
+sigma.sq1 <- 2^2
+set.seed(222)
+x1 <- rnorm(N1, mu1, sqrt(sigma.sq1))
+x1
+# Stan model
+modelcode<-
+  "data{
+  int<lower=0> N; // number of observations
+  real x[N]; //data vector
+}
+
+parameters {
+  real mu; // mean parameter
+  real<lower=0> sigma_sq; // variance parameter
+}
+
+//transformed parameters{
+//  real tau;
+//  tau = 1/sigma_sq;
+//}
+model {
+  sigma_sq ~ uniform(0, 100);
+  mu ~ uniform(0, 100);
+  for (i in 1:N) {
+    x[i] ~ normal(mu, sigma_sq);
+  }
+
+}"
+
+# For efficiency we removed the stan model from running in code, it is quite large and we created it using 10 cores. Instead, user reads in .rds file previously created by model. If user wishes to generate a new stan model simply uncomment the following 8 lines.
+# rstan_options(auto_write = TRUE)
+# options(mc.cores = 10)
+# mod <- stan(model_code = modelcode,
+#             data = list("x" = x1,
+#                         "N" = N1,
+#                         "sigma_sq" = sigma.sq1),
+#             cores=10, chains=10, iter = 10000, warmup = 500,
+#             control=list(adapt_delta=.95))
+# saveRDS(mod, file = "./data/stanmodel1_HAS.rds")
+
+mod<-readRDS("./data/stanmodel1_HAS.rds")
+# print(mod)
+# plot(mod,plotfun = "trace", pars = c("mu"), inc_warmup = F)
+mat <- as.array(mod)
+# plot(mod)
+
+samps1<-as.vector(as.matrix(mod, pars = "mu"))
+#head(samps1)
+#dim(samps1)
+#range(samps1)
+#quantile(samps1,c(.05, .95))
+
+# compute probabilities
+# sum((samps1>=4.9 & samps1<=8.9))/length(samps1)
+# sum((samps1>=9 & samps1<=13))/length(samps1)
+# sum((samps1>=12 & samps1<=16))/length(samps1)
+
+###############################
+# Late Period
+###############################
+
+# P(D|H1)
+z<-(13-6.9)/(3.2/sqrt(9))
+z
+2*pnorm(abs(z),lower.tail = F) 
+
+# P(D|H2)
+z<-(13-11)/(3.2/sqrt(9))
+z
+2*pnorm(abs(z),lower.tail = F) 
+
+# P(D|H2)
+z<-(13-14)/(3.2/sqrt(9))
+z
+2*pnorm(abs(z),lower.tail = F) 
+
+
+
+
+N2 <- 9
+mu2 <- 13
+sigma.sq2 <- 3.2^2
+set.seed(222)
+x2 <- rnorm(N2, mu2, sqrt(sigma.sq2))
+x2
+
+# For efficiency we removed the stan model from running in code, it is quite large and we created it using 10 cores. Instead, user reads in .rds file previously created by model. If user wishes to generate a new stan model simply uncomment the following 8 lines.
+# rstan_options(auto_write = TRUE)
+# options(mc.cores = 10) #parallel::detectCores()
+# 
+# mod2 <- stan(model_code = modelcode,
+#              data = list("x" = x2,
+#                          "N" = N2,
+#                          "sigma_sq" = sigma.sq2),
+#              cores=10, chains=10, iter = 10000, warmup = 500,
+#              control=list(adapt_delta=.95))
+# #print(mod2)
+# saveRDS(mod2, file = "./data/stanmodel2_HAS.rds")
+mod2<-readRDS("./data/stanmodel2_HAS.rds")
+mat2 <- as.array(mod2)
+#plot(mod2)
+samps2<-as.vector(as.matrix(mod2, pars = "mu"))
+#head(samps2)
+#dim(samps2)
+#range(samps2)
+#quantile(samps2,c(.05, .95))
+
+# compute probabilities
+# sum((samps2>=4.9 & samps2<=8.9))/length(samps2)
+# sum((samps2>=9 & samps2<=13))/length(samps2)
+# sum((samps2>=12 & samps2<=16))/length(samps2)
+```
+
+@otarola-castillo_bayesian_2018 introduced a simple example to contrast NHST and Bayesian inference. They presented an artificial case study where an archaeologist proposed to infer projectile propelling technology from its relationship to stone projectile morphology. In their example, the archaeologist used the known relationship between projectile point propelling technology and point size, from an ethnographic context. The archaeologist used this relationship as a frame of reference to infer the propelling technology of a sample of stone projectile points recovered from a multi-component archaeological site. Using known measurements of each technology type, @otarola-castillo_bayesian_2018 demonstrated how the archaeologist could use NHST and a Bayesian framework to infer the most likely propelling technology (Table 1). 
+
+
+
+> **Table 1** *Summary statistics (mean and standard deviation) of artificial maximum projectile point lengths recovered from the Early and Late Period archaeological contexts, along with equivalent summaries of the maximum point lengths known to be associated with different propelling technologies. The latter are used to define the hypotheses to be evaluated using the archaeological data.*
+
+**Archaeological Projectile Data**
+
+                  Early Period  Late Period                  
+----------------  ------------- -------------  --------------
+Mean Length (cm) 	    6.1          13                        
+SD (cm)          	     2          3.2                        
+N                     10           9                         
+
+**Propelling Hypotheses**
+
+                     Arrow         Dart           Spear                
+----------------  ------------- -------------  --------------
+Mean Length (cm) 	    6.9           11              14                        
+SD (cm)          	     2            2               2
+
+
+The simulated data are maximum length measurements of projectile points from the Early (N=10) and Late (N=9) components of an archaeological site (upper part of Table 1). The archaeologist also measured the maximum lengths of a large sample of ethnographic projectile points with known propelling technology, summarized in the lower part of Table 1 by their means and standard deviations. The hypotheses to be tested are that the archaeological data from the Late and Early Period derive from each of the three ethnographically observed propelling technologies: 1) bow and arrow, 2) atlatl and dart, and 3) hand-thrown spear.  
+
+### Analysis using NHST
+
+The archaeologist tested the hypotheses that the archaeological data were plausible given the ethnographic data relating to each propelling technology. To do this, they used the means () in Table 1 and formalized the hypotheses shown in Table 2. 
+
+> **Table 2**  *Null and alternative hypotheses used for NHST.*
+
+**H~0~- the null hypotheses**
+
+Early Period                           Late Period
+------------------------------------   ------------------------------------
+$\mu$~Early~ ~Period~ = $\mu$~Arrow~   $\mu$~Late~ ~Period~ = $\mu$~Arrow~
+$\mu$~Early~ ~Period~ = $\mu$~Dart~    $\mu$~Late~ ~Period~ = $\mu$~Dart~
+$\mu$~Early~ ~Period~ = $\mu$~Spear~   $\mu$~Late~ ~Period~ = $\mu$~Spear~
+------------------------------------   ------------------------------------
+
+
+**H~A~- the alternative hypotheses**
+
+Early Period                                 Late Period
+------------------------------------------   ------------------------------------------
+$\mu$~Early~ ~Period~ $\not=$ $\mu$~Arrow~   $\mu$~Late~ ~Period~ $\not=$ $\mu$~Arrow~
+$\mu$~Early~ ~Period~ $\not=$ $\mu$~Dart~    $\mu$~Late~ ~Period~ $\not=$ $\mu$~Dart~
+$\mu$~Early~ ~Period~ $\not=$ $\mu$~Spear~   $\mu$~Late~ ~Period~ $\not=$ $\mu$~Spear~
+------------------------------------------   ------------------------------------------
+
+
+
+They then assumed that the summaries in Table 1 were for samples from populations distributed under “Normal” probability models and applied the well-known **z**-test [@diez_open_2019: 134]. The same Normal probability model assumptions will also be useful to generate the likelihood function in the Bayesian analysis, later on. Knowing the means and standard deviations of the ethnographic and archaeological data, @otarola-castillo_bayesian_2018's archaeologist computed the **z**-scores and their associated **p**-values (Table 3). 
+
+\newpage
+> **Table 3**  *Results of the **z**-score hypothesis tests described in the text, including the associated  **p**-values.* 
+
+**Early Period**
+
+            z-score     p-value    
+----------- ----------- -------------
+Arrow       -1.26       0.21         
+Dart Tips   -7.75       <0.001       
+Spear Tips  -12.49      <0.001       
+----------- ----------- -------------
+
+**Late Period**
+
+            z-score     p-value    
+----------- ----------- -------------
+Arrow       5.71        <0.001         
+Dart Tips   1.87        0.06       
+Spear Tips  0.94        0.35       
+----------- ----------- -------------
+
+
+Using this method, because the p-values were less than 0.001, they rejected the null hypotheses that the means of the Early Period projectile points resembled those of darts or spears (Tables 2 and 3). Instead, the archaeologist determined that the points may have come from a population of arrow projectile points because the associated p-value is greater than 0.05 (Table 3). Thus, there was not enough evidence to reject this null hypothesis. NHST allows the archaeologist to infer that *“the Early Period sample does not have a low probability of resulting from a population of arrow tips,”* and they do not reject this hypothesis. 
+
+```{r Fig1, echo=FALSE, message=FALSE, warning=FALSE,fig.width = 7, fig.asp = .75, fig.cap = "Figure 1  Likelihoods of the maximum length data. The red dashed lines illustrate the “Normal” likelihood of the maximum lengths data measurements obtained empirically from the archaeological Early (top) and Late (bottom) periods. The likelihood values were obtained after estimating the parameters of the Normal probability distribution that maximized the likelihood of the measurement values (i.e., Maximum Likelihood Estimation, MLE). Following this procedure, we used the MLE parameter estimates to simulate the likelihood of hypothetical maximum length values greater than the range observed archaeologically. The black solid line depicts these values. In both panels, we overlaid the empirical (gray dotted) over the hypothetical (black solid) likelihood estimates for comparison"}
+
+b<-par()
+# plot likelihood
+par(mfrow=c(2,1), cex=0.6)
+
+# simulate 1000 random variables that follow the mu and sigsqr of x2
+x1.sim <- rnorm(1000, mu1, sqrt(sigma.sq1))
+# plot simulated data
+plot(sort(x1.sim), 
+     dnorm(sort(x1.sim), 
+           mean = mu1, 
+           sd = sqrt(sigma.sq1)), 
+     "l", 
+     xlab="Length", 
+     ylab="Likelihood of (Length)", 
+     main="Early Period",axes=F,
+     xlim=c(0,25), ylim=c(0,.2))
+axis(2, at=seq(0,.2, by=.05))
+axis(1, at=seq(0,25, by=1))
+# plot "real" observed x2 data
+lines(sort(x1), dnorm(sort(x1), mean = mu1, sd = sqrt(sigma.sq1)), col="red", lty=3, lwd=6)
+legend(
+  c(20, 18.5),
+  c(0.1, .2),
+  c("Simulated length", "Empirical length"),
+  bty = "n",
+  col = c("black", "black"),
+  lty=c(1,3),
+  cex = 1.5
+)
+
+# simulate 1000 random variables that follow the mu and sigsqr of x2
+x2.sim <- rnorm(1000, mu2, sqrt(sigma.sq2))
+# plot simulated data
+
+# #grayscale
+# plot(sort(x2.sim), 
+#      dnorm(sort(x2.sim), 
+#            mean = mu2, 
+#            sd = sqrt(sigma.sq2)), 
+#      "l", 
+#      xlab="Length", 
+#      ylab="Likelihood of Length", 
+#      main="Late Period",axes=F,
+#      xlim=c(0,25), ylim=c(0,.2))
+# axis(2, at=seq(0,.2, by=.05))
+# axis(1, at=seq(0,25, by=1))  
+# # plot "real" observed x2 data
+# lines(sort(x2), dnorm(sort(x2), mean = mu2, sd = sqrt(sigma.sq2)), col="gray", lty=3, lwd=6)
+# par(mfrow=c(1,1), cex=1)
+
+#color
+plot(sort(x2.sim), 
+     dnorm(sort(x2.sim), 
+           mean = mu2, 
+           sd = sqrt(sigma.sq2)), 
+     "l", 
+     xlab="Length", 
+     ylab="Likelihood of Length", 
+     main="Late Period",axes=F,
+     xlim=c(0,25), ylim=c(0,.2))
+axis(2, at=seq(0,.2, by=.05))
+axis(1, at=seq(0,25, by=1))  
+# plot "real" observed x2 data
+lines(sort(x2), dnorm(sort(x2), mean = mu2, sd = sqrt(sigma.sq2)), col="red", lty=3, lwd=6)
+par(mfrow=c(1,1), cex=1)
+```
+
+
+Following this exact procedure for the Late Period, the archaeologist obtained a p-value less than 0.001 for the arrow hypothesis. However, the **p**-values for the speartip and dart tip hypotheses are both greater than 0.05. Therefore, although the archaeologist may reject the arrow hypothesis, the inference cannot be distinguished between *“the sample does not have a low probability of resulting from a population of dart tips”* and *“the sample does not have a low probability of resulting from a population of spear tips”*. 
+
+### Bayesian analysis
+@otarola-castillo_bayesian_2018's archaeologist then compared the NHST analysis to one using a Bayesian framework. The authors did this to show how archaeologists might apply Bayesian statistics to assign probabilities to the hypotheses that the archaeological projectile points were arrows, dart tips, or spear tips - given the data in hand. 
+
+This approach is advantageous when a scientist uses multiple working hypotheses and is interested in deciding which is most probably supported by the data. The Bayesian framework can achieve this goal by using the same assumptions about the underlying probability distributions as those in the NHST approach. Using Bayes' theorem, one may then represent prior knowledge as a corresponding prior probability distribution and calculate each hypothesis's posterior probability. 
+
+To conduct this analysis, Otárola-Castillo and Torquato followed the procedures on likelihoods, prior and posterior probabilities, and MCMC sampling we outlined in our Bayesian Statistics section above. For additional technical detail, we refer the reader to the What is Bayes’ Theorem section below. The authors modelled the likelihood of the maximum projectile length using the “Normal” probability model (Figure 1). They also modelled prior knowledge using a uniform probability distribution to reflect no previous information and demonstrate the probabilistic approach to hypothesis selection. Under the uniform distribution, the prior probabilities of all maximum projectile lengths were identical. Together, the likelihood and prior probability models are foundational components of Bayesian Inference.
+
+The archaeologist in @otarola-castillo_bayesian_2018 then used an MCMC procedure to calculate the probability of each hypothesis: that the archaeological samples were either arrow, dart, or spear, applying a two-step process. First, they generated samples from the posterior distribution via MCMC. Second, they compared the sampled values to intervals defined by one standard deviation around the mean of the ethnographically observed values for each of the point types (Table 4, Figure 2). In this way, sampled posterior point lengths that lay between 4.9 cm and 8.9 cm were defined (a posteriori) as Arrows; those in the range 9 to 13 cm Darts; those in 12 to 16 cm Spears. Point lengths outside the range of 4.6 to 16 cm were outside of the evaluated hypotheses. Therefore, they were declared to belong to a group labelled "Other". There is some overlap between the summary probability distributions implied by the ethnographic data. Thus, the hypotheses are not mutually exclusive. In other words, due to overlapping measurements, some projectile points may be consistent with more than one hypothesis. We discuss the implications of this overlap below.
+
+Next, the archaeologist calculated the posterior probabilities by dividing the number of projectile points consistent with each hypothesis by the total number of projectile points for each period. The posterior probability of point lengths for each hypothesis is reported in Table 4 and illustrated in Figure 2. Since the hypotheses are non-mutually exclusive, the posterior probabilities corresponding to each hypothesis within a period are not expected to sum to 1. Depending on one’s hypotheses, the interpretation of probabilities relating to non-mutually exclusive outcomes may be problematic. For example, one might ask, what is the probability that the projectile points are Arrows or Darts? In this case, because some Arrows may be similar in length to Darts, these are not mutually exclusive outcomes, and one may not simply add their respective probabilities together. The solution is to use the General Addition Rule of probability (see @diez_open_2019: 83-88). We do not evaluate such an hypothesis in this example but note this rule so that readers may adopt it if needed for their own work.
+
+Using the resulting Bayesian posterior probability distribution to conduct inference lets scientists make fully probabilistic statements about their hypotheses and thus make more explicit comparisons than those provided by the NHST framework. The results highlighted by Figure 2 seem clear regarding the probability of each hypothesis. We will discuss these further. After examining the resulting posterior probabilities, the archaeologist determined that the Early period sample points were most probably used as arrows (with probability 0.97) and likely propelled by a bow-like mechanism. This mode of stone point propelling changed during the Late Period when the people living on this site began to use mainly hand-thrown spears (with probability 0.89). 
+
+In this way, the Bayesian approach to testing  hypotheses leads to results that are more readily interpreted than those via the p-value based NHST. In particular, we are  provided with measures of probability that the data support the hypotheses, which have considerably more intuitive interpretation than those provided by p-values.
+
+\newpage
+>**Table 4** *Posterior probabilities that the Early and Late Period maximum projectile point lengths were associated with arrow, dart, and spear propelling technologies.* 
+
+
+Function    Mean±SD of max. point length     Early Period            Late Period
+----------- -------------------------------- ----------------------- ------------------
+Arrow       6.9 ± 2                          0.97                    0.0009
+Dart Tips   11 ± 2                           0.004                   0.17
+Spear Tips  14 ± 2                           0.00002                 0.89
+----------- --------------------------------- ----------------------- ------------------
+
+
+```{r Fig2, echo=FALSE, message=FALSE, warning=FALSE,fig.width = 7, fig.asp = .75, fig.cap = "Bayesian posterior probability distributions of each of three propelling technology hypotheses: a) Arrow, b) Dart, c) Spear in the Early (bottom) and Late (top) periods. The amount of area under the curve reflects the probability of each hypothesis expressed as percentages."}
+
+# Filled Density Plot
+theme_set(theme_ggdist())
+
+###############################################
+# READ-IN THE EARLY PERIOD
+###############################################
+# mod is the bayesian model #1
+mod<-readRDS(file = "./data/stanmodel1_HAS.rds")
+#par(mfrow=c(2,1))
+op <- par(cex = .6)
+#y_rep <- matrix(as.matrix(mod, pars = "mu"), nrow = 995)
+y <- as.vector(as.matrix(mod, pars = "mu"))
+
+EP<-y #sample(y,10000) # only sample 10k out the 1 million posteriors
+dat<-data.frame(val=EP,time=as.factor("Early Period"))
+
+###############################################
+# READ-IN THE LATE PERIOD
+###############################################
+# mod is the bayesian model #1
+mod2<-readRDS(file = "./data/stanmodel2_HAS.rds")
+
+#y_rep <- matrix(as.matrix(mod2, pars = "mu"), nrow = 995)
+y <- as.vector(as.matrix(mod2, pars = "mu"))
+LP<-y #sample(y,10000) # only sample 10k out the 1 million posteriors
+dat2<-data.frame(val=LP,time=as.factor("Late Period"))
+dat3<-rbind(dat,dat2)
+dat3$time<-as.factor(dat3$time)
+dat3$hyp<-"Other"
+dat3$hyp[which(dat3$val >= 4.9 & dat3$val <= 8.9)]<-"Arrow"
+dat3$hyp[which(dat3$val >= 9 & dat3$val <= 13)]<-"Dart"
+dat3$hyp[which(dat3$val >= 12  & dat3$val <= 16)]<-"Spear"
+dat3$hyp<-factor(as.character(dat3$hyp), 
+                 levels = c("Arrow", "Dart", "Spear", "Other"), 
+                 ordered = TRUE)
+
+# hypotheses are
+# Arrow heads range between 4.9 and 8.9 cm
+# Dart heads range between 8.9 and 13 cm
+# Spear heads range between 12 and 16 cm
+# colors within distributions should reflect this
+
+# activate if printing to disk
+# png(file = "myplot.png", bg = "transparent", 
+#    width = 8, height = 6.5, units="in", res=600)
+# GRAYSCALE
+# dat3 %>%
+#   ggplot(aes(x = val, y = time)) +
+#   scale_x_continuous(breaks = seq(0, 26, by=1)) +  
+#   coord_cartesian(xlim=c(0, 26)) +
+#   geom_dots(aes(fill=hyp, color=hyp),
+#             scale=1.1, dotsize=0.00045*length(dat3$val)) +
+#   scale_colour_manual(values = gray.colors(4))+ #c("#D55E00", "#E69F00", "#56B4E9", "gray")
+#   scale_fill_manual(values = gray.colors(4))+ #c("#D55E00", "#E69F00", "#56B4E9", "gray")
+#     labs(title = "",
+#     subtitle = "", x="Point length (cm)",
+#     y= "Period", fill="Hypothesis", color="Hypothesis")
+
+# IN COLOR
+dat3 %>%
+  ggplot(aes(x = val, y = time)) +
+  scale_x_continuous(breaks = seq(0, 26, by=1)) +  
+  coord_cartesian(xlim=c(0, 26)) +
+  geom_dots(aes(fill=hyp, color=hyp),
+            scale=.9, dotsize=0.00045*length(dat3$val)) +
+  scale_colour_manual(values = c("#D55E00", "#E69F00", "#56B4E9", "gray")) +
+  scale_fill_manual(values = c("#D55E00", "#E69F00", "#56B4E9", "gray")) +
+    labs(title = "",
+    subtitle = "", x="Point length (cm)",
+    y= "Period", fill="Hypothesis", color="Hypothesis")
+
+#dev.off()
+```
+

@@ -1,0 +1,39 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+## \hfil HOPES FOR THE FUTURE\hfil
+
+We have discussed the positive contributions of Bayesian inference to archaeological thinking. In addition to providing a fully probabilistic framework, Bayesian statistics requires that one makes existing prior knowledge explicit to use in statistical analyses. By doing so, scientists take advantage of a more comprehensive set of information when evaluating hypotheses. This is a major advantage over NHST and the related Maximum Likelihood, and Information Theory approaches to model-selection [@murtaugh_defense_2014]. Increases in the popularity of Bayesian applications in archaeology are likely due to the recognition of these features. To continue this trend, we outline an ambitious set of initiatives we hope to see in the future of Bayesian applications in archaeology. 
+
+### A framework for archaeological science
+
+The Bayesian approach provides a systematic learning procedure, using evidence to update one’s beliefs or hypotheses until reaching a confident and accurate level of knowledge. This evidence-based learning approach inherently resembles the scientific process of hypothesis generation and evaluation. As a science, data-laden inference about the past is also inherent to archaeology. New knowledge from archaeological data recovery through excavation, survey, or analytical activities constantly update archaeologists’ state of knowledge and revise the degree of support for prior hypotheses (e.g., the initial colonization of the Americas and out of Africa origins of *Homo sapiens*). 
+
+### Increase diversity of Bayesian applications
+
+Gauging by the seemingly exponential increase in the number of Bayesian papers in archaeology in the 2000s to the 2010s [@otarola-castillo_bayesian_2018, Fig 1], not only has the Bayesian inferential framework increased in popularity in the general sciences, but also in archaeology. This jump in usage is also evidenced by the number of Bayesian papers, posters, and symposia at conferences [e.g., @buck_stratification_2020; @krus_big_2020; @wolfhagen_bayesian_2021]. 
+
+The increase in applications is due in part to purpose-written software and libraries, tailored to the needs of archaeologists (e.g., OxCal, BCal, and Bchron [@haslett_simple_2008]). Increasingly, however, as archaeologists become more confident to write their own code, simple-to-use and accessible software like STAN, JAGS, and BUGS [@gilks_language_1994; @plummer_jags_2003; @sturtz_r2winbugs_2005; @team_rstan_2019] are also being adopted. For R users, for example, the RStan package [@team_rstan_2020] has simplified the access to this software, and so has the development of “higher level” code R-packages like Rstanarm and BRMS [@burkner_brms_2017; @goodrich_rstanarm_2020]. 
+
+### Training in underlying theory
+
+With accessibility, however, there is potential for technical sophistication and attention to detail to be missed. Adopting easy-to-access software might hide some of the Bayesian approach’s complexity, comprehension of which is necessary in order for users to  take responsibility for the modelling choices inherent in adopting them. 
+
+As such, one of our hopes for the future is an increase in training opportunities for archaeologists in both the statistical and theoretical details underlying Bayesian inference, and the technical and practical details associated with implementation. In our opinion, greater knowledge of these two steps will generate a deeper understanding and more responsible adoption of the Bayesian framework for inference. 
+
+This leads to the type of student training we hope to see in the future. Training students to become aware of and fluent in the theory underlying NHST and Bayesian inference will need some remodelling to current curricula. Integrating statistical and computational theory into archaeological study programs would be one step towards providing students with the expertise to evaluate and develop reliable Bayesian solutions for themselves. It would, of course, also allow them to evaluate more responsibly the modelling work of others, thus leading to a better informed and more articulate body of reviewers for archaeological journals. 
+
+### The power of algorithmic thinking
+
+Training in probability theory and coding alone will not change a discipline, but together with an encouragement to formalize thinking they might. Archaeologists are widely known for our meticulous record keeping. We propose that archaeologists complement our reputation for high quality documentation, by adding greater formalization to our thinking and hypothesizing. Coders do this out of necessity, but it is not routine practice in most of archaeology. 
+
+There are, of course, widely used and highly regarded field manuals that encourage step-by-step record-keeping [@crow_crow_2001; @hester_field_2016; @white_archaeological_2016] and many modern excavations follow these closely. . However, beyond fieldwork, careful data handling and modelling procedures have traditionally not been given such emphasis, although there are, and have been, notable examples of good practice [e.g., @carlson_quantitative_2017; @mccall_strategies_2018; @banning_archaeologists_2020]. Processes such as phasing a site or interpretation of the archaeological record in an entire landscape, require the handling of very large amounts of information, typically held in many different computer files. The field would benefit if this processing were systematically recorded and replicable. The consequence of not doing this might be an undocumented workflow that even those involved struggle to fully recreate if needed.
+
+Those with coding experience know that poorly documented workflows are not a sustainable approach to information management. What’s needed instead is a step-by-step or flow-diagram approach to planning and documenting the post-excavation workflow. Setting up such approaches is time-consuming, of course, but the advantages for reproducibility are immeasurable. Fortunately, archaeologists are increasingly open to adopting some of these processes [@marwick_computational_2017]. Moreover, there are now several well-established environments that encourage researchers to take this approach. One such is Rmarkdown [@allaire_rmarkdown_2020] which allows users to embed R code and output within a text document. Those of us who use such environments have found that we naturally document the data management and analysis process, as we work, and can write up and archive our work much more quickly and accurately, too. 
+
+\newpage
+
+# REFERENCES 

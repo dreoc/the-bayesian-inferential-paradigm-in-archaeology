@@ -1,0 +1,79 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+## \hfil WHAT IS BAYES’ THEOREM\hfil
+
+Bayes’ theorem is an algorithm for obtaining the value of a conditional probability statement, when one knows its inverse. It is usually exemplified by considering two related events, A and B. Put simply, Bayes’ theorem states that (equation 1):
+
+\begin{equation}
+P(A|B) = \frac{P(B|A)\cdot P(A)}{P(B)}
+\label{eg:1}
+\end{equation}
+
+In this case, to obtain the conditional probability of A given B, P(A|B) - here P represents probability and | is read as ‘given’ - one needs to divide the joint probability of A and B, P(A and B), by the marginal probability of B, P(B). The product of P(B|A) and P(A) is the joint probability P(A and B). The formula then generalizes to equation (2):
+
+\begin{equation}
+P(A|B) = \frac{P(A \cap B)}{P(B)}
+\label{eg:2}
+\end{equation}
+
+where the joint probability is divided by the marginal P(B). Statisticians call P(A|B) the posterior probability of A given B, P(B|A) the inverse conditional (or likelihood) of B given A, and P(A) the prior probability of A.
+
+### The link between Bayes' theorem, inference, data and hypotheses
+
+The simulated archaeological scenario above provided a tangible example of the different components of a Bayesian analysis, including an event’s probability, the probability of one event given another, prior and posterior probabilities. Although the procedure here is specific to archaeological data, Bayes’ theorem is a very general algorithm that is useful for a wide variety of data and data-generating processes. This section generalizes Bayes’ theorem to a variety of other scenarios. 
+
+We stated earlier that Bayesian statistics uses the data in hand, (D), to assign probabilities to hypotheses about a population (H). The statement P(H|D), i.e., the probability of the hypothesis given the data, formalizes this relationship. To operationalize this statement in the context of data and hypotheses, Bayes’ theorem functions as
+
+\begin{equation}
+P(H|D) = \frac{P(D|H)\cdot P(H)}{P(D)}
+\label{eg:3}
+\end{equation}
+
+
+where: P(H|D) is the posterior probability — the probability of the hypothesis given the data in hand; P(D|H) is the probability of the data given the hypothesis, or the “likelihood” of the observed data; P(H) is the prior probability of the hypothesis (before the data were observed), and P(D) is the probability of the data in hand (out of all possible values of the data). Alternatively, using modern statistical vernacular this operation can then be expressed in a slightly different form as:
+
+
+\begin{equation}
+Posterior  = \frac{Likelihood \cdot Prior}{P(Data)}
+\label{eg:4}
+\end{equation}
+
+
+In Otárola-Castillo and Torquato’s artificial example, the hypotheses represented the belief that the observed Early and Late period projectile point data represented samples from populations derived from particular propelling technologies. The data were modelled by the Normal probability distribution, and the hypotheses were characterized by the values of the model’s parameters. 
+
+We use the symbol x to represent the observed data and the symbol $\theta$ to represent the parameter(s) of our model of the population that we are trying to learn about. Given x and a model with parameter(s) $\theta$, we can more formally describe Bayes’ theorem and its three components: the *likelihood*, the *prior*, and the *posterior*.
+
+i. The *likelihood* is a statistical function. Its form is determined by the specific probability model we are using but, in general terms it is represented by P(x|$\theta$). Consequently, the likelihood is the probability of observing particular data values given some specific values of the unknown parameters. Thus, this is a formal statement of the relationship between what we want to learn and the data we collect.
+
+ii. The *prior* is also a function and can be represented by P($\theta$). In simple terms, we can think of this as the probability we attach to observing specified values of the unknown parameters before (*a priori*) we observe the data. In other words, this is a formal statement of what we knew before the latest data were collected.
+
+iii. The posterior is the probability distribution that we want to obtain (a combination of the information contained in the data, the likelihood and the prior) and can be represented by P($\theta$|x). Put plainly, this is the probability we attach to specified values of the unknown parameters after observing the data. In this more technical context, we can express Bayes’ theorem as:
+
+\begin{equation}
+P(\theta|x) = \frac{P(x|\theta)\cdot P(\theta)}{P(x)}
+\label{eg:5}
+\end{equation}
+
+In addition, the numerator, the product of the likelihood and the prior probability without the normalizing denominator P(*x*)is proportional to ($\propto$) the posterior and is often computed and expressed by 
+
+\begin{equation}     
+P(\theta|x) \propto P(x| \theta) \cdot P(\theta)
+\label{eg:6}
+\end{equation}
+
+or,
+
+\begin{equation}
+Posterior \propto Likelihood \cdot Prior
+\label{eg:7}
+\end{equation}
+
+In this manner, Bayesian statistics offers an alternative statistical framework for evaluating hypotheses through a mechanism for obtaining *a posteriori* information about the parameter values of interest, based upon the data, a model, and appropriately formulated prior information. In other words, given an explicit statement of our *a priori* information, a clearly defined statistical model and a desire to obtain *a posteriori* understanding, Bayes’ theorem provides us with a probabilistic framework within which to make interpretations.
+
+In addition to the coherent and explicit nature of the framework, there is another attractive feature of adopting the Bayesian paradigm in that it allows us to learn from experience. Priors enable the explicit contextualization of previous knowledge or beliefs about the topic under investigation [@cowgill_distinguished_1993; @buck_bayesian_1996]. This should be a natural feature to archaeologists for whom context is quite meaningful, or as @buck_bayesian_1996 discuss, archaeologists interpret the discovery of new artifacts in conjunction with artifacts that have already been discovered.
+
+Moreover, today’s posterior information (based on current data and prior information) is in a suitable form to become the prior for further work if and when more data become available. Few other interpretative frameworks offer a clear structure for updating one’s beliefs in the light of new information and yet it is such an important part of most intuitive approaches to learning about the world in which we live.

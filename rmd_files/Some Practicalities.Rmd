@@ -1,0 +1,23 @@
+---
+output:
+  pdf_document: default
+  word_document:default
+  html_document: default
+---
+## \hfil SOME PRACTICALITIES\hfil
+
+
+### Modelling
+
+Although numerous probability models exist, many archaeological problems are statistically non-standard. This has often meant that the close collaboration of a number of specialists, including statisticians, is required to build useful models. Fortunately, statisticians have often found archaeological problems to be interesting and challenging and so this kind of collaboration is not too unusual. Nonetheless, although applications of Bayesian analysis to archaeology have been around for more than 30 years, they are by no means ubiquitous and further collaboration is certainly needed.
+
+### Specifying the prior
+
+One of the major stumbling blocks to the more widespread use of Bayesian techniques in archaeology is the perceived difficulty of specifying prior information. Some archaeologists do not acknowledge that reliable prior information exists and others have philosophical objections to the use of subjective opinions in formal inference. Both such groups typically prefer to continue using exploratory methods or traditional NHST-based ones. Others have expert knowledge and would like to use it, but have difficulty expressing their ideas in a suitable form because of their lack of knowledge about the mathematics that underlie the models they wish to use. Tackling this problem requires further collaboration, clear communication, and an acceptance that different researchers will have varying views on which interpretive framework to use or which specific model to adopt. Most importantly, there is no need for everyone to agree. Researchers who adopt the Bayesian framework are forced to be explicit about what they believe. As a result, different workers can compute posteriors based on their own prior information and compare them formally with the inferences of others.
+
+### Evaluating the posteriors
+
+Early applications of the Bayesian framework to archaeology (as with other disciplines) were restricted to likelihoods and priors for which the necessary calculations could easily be undertaken. However, since the mathematical integrations required for some models are not analytically soluble, a fair number of real questions simply could not be tackled. These problems have now largely been overcome by the widespread adoption of numerical techniques that allow the posterior information to be sampled rather than obtained exactly. Some of the earliest illustrations of the use of these techniques for evaluating Bayesian posteriors were in Bayesian radiocarbon calibration [@buck_calibration_1992; @buck_bcal_1999; @litton_archaeological_1996]. Advances in algorithms to create and sample from Markov chain Monte Carlo simulations (MCMC) such as Metropolis-Hastings, Gibbs sampling, and the Hamiltonian procedures such as No U-Turn Sampling (NUTS) [e.g., @dunson_hastings_2020; @hoffman_no-u-turn_2014]  implemented by popular software like BUGS, JAGS, and STAN [@gilks_language_1994; @plummer_jags_2003; @sturtz_r2winbugs_2005; @team_rstan_2019] have helped to alleviate this problem. 
+
+### Interpretation
+Ultimately, the most important part of any statistical investigation is the interpretation of the results obtained. The posterior distributions that arise from Bayesian analyses can be very complex and are sometimes not directly interpretable in terms of the original problem. This means that exploratory methods of data analysis may be needed to help investigate, interpret, and report upon the posterior distributions obtained. When making such interpretations, the level of confidence in the posteriors is affected by their sensitivity to changes in the data, priors, or model. Such sensitivity should be investigated as part of the interpretation of all posterior information. It is always useful to relax some of the prior assumptions and re-compute the posteriors to see what effect this has. All reports of Bayesian analyses should make reference to sensitivity analyses of this type, since without them we cannot be sure how robust the results are and thus how reliable they would be as prior information for future research.
