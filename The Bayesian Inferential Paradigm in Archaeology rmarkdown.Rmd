@@ -3,7 +3,7 @@ title: "**The Bayesian Inferential Paradigm in Archaeology**"
 author: 
   - ERIK OTÁROLA-CASTILLO*, MELISSA G. TORQUATO
   - Department of Anthropology, Purdue University, West Lafayette, Indiana, USA
-  - CAITLIN E. BUCK
+  - CAITLIN E. BUCK*
   - School of Mathematics and Statistics, University of Sheffield, Sheffield, UK
 date: "*R Markdown version last compiled on `r format(Sys.time(), '%A %B %d %Y, %X, %Z')`*"
 indent: yes
@@ -50,9 +50,10 @@ require(cowplot)
 **Manuscript accepted to the Handbook of Archaeological Sciences, 2nd ed. Forthcoming volume under contract. *Edited by* M. Pollard, R.A. Armitage, and C.M. Makarewicz. Willey.** 
 
 \vspace{2.5cm}
-\textbf{*\*Corresponding Author}
+\textbf{*\*Corresponding Authors}
 \noindent
 email:\href{mailto:eoc@purdue.edu}{\color{blue} \,eoc@purdue.edu}\newline
+email:\href{mailto:c.e.buck@sheffield.ac.uk}{\color{blue} \,c.e.buck@sheffield.ac.uk}\newline
 
 
 \newpage
