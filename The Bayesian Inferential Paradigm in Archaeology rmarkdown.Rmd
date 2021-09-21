@@ -31,19 +31,14 @@ options(list(scipen=5, digits = 2))
 # check for required packages          #
 ########################################
 #setwd(dirname(rstudioapi:::getActiveDocumentContext()$path))
-list.of.packages <- c("tidyverse", "emmeans","brms", "tidybayes", "rstudioapi", "betareg", "glmmTMB", "rstan", "ggdist", "ggplot2", "cowplot", "knitr", "kableExtra", "tinytex")
+list.of.packages <- c("tidyverse","tidybayes", "rstan", "ggdist", "ggplot2", "cowplot", "knitr", "kableExtra", "tinytex")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 ########################################
 # load packages                        #
 ########################################
 require(tidyverse)
-require(emmeans)
-require(brms)
 require(tidybayes)
-require(rstudioapi)
-require(betareg)
-require(glmmTMB)
 require(rstan)
 require(ggdist)
 require(ggplot2)
