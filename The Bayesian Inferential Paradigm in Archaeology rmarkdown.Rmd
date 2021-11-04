@@ -47,7 +47,7 @@ require(cowplot)
 
 \vspace{4cm}
 \noindent
-**Manuscript accepted to the Handbook of Archaeological Sciences, 2nd ed. Forthcoming volume under contract. *Edited by* M. Pollard, R.A. Armitage, and C.M. Makarewicz. Willey.** 
+**Manuscript accepted to the Handbook of Archaeological Sciences, 2nd ed. Forthcoming volume under contract. *Edited by* M. Pollard, R.A. Armitage, and C.M. Makarewicz. Wiley.** 
 
 \vspace{2.5cm}
 \textbf{*\*Corresponding Authors}
