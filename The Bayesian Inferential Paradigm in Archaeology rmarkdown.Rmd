@@ -47,12 +47,13 @@ require(cowplot)
 
 \vspace{4cm}
 \noindent
-**Manuscript accepted to the Handbook of Archaeological Sciences, 2nd ed. Forthcoming volume under contract. *Edited by* M. Pollard, R.A. Armitage, and C.M. Makarewicz. Wiley.** 
+**Manuscript accepted to the Handbook of Archaeological Sciences, 2nd ed. Forthcoming volume under contract (2022). *Edited by* M. Pollard, R.A. Armitage, and C.M. Makarewicz. Wiley.** 
 
 \vspace{2.5cm}
 \textbf{*\*Corresponding Authors}
 \noindent
-email:\href{mailto:eoc@purdue.edu}{\color{blue} \,eoc@purdue.edu}\newline
+\newline
+email:\href{mailto:eoc@purdue.edu}{\color{blue} \,eoc@purdue.edu}\newline 
 email:\href{mailto:c.e.buck@sheffield.ac.uk}{\color{blue} \,c.e.buck@sheffield.ac.uk}\newline
 
 
